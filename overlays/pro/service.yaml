@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: golang-example-site
+spec:
+  selector:
+    app: golang-example-site
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

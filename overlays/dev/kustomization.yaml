@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: golang-example-dev
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+  - name: golang-example-site-app
+    files:
+      - main.go=main.go
