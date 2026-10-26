@@ -25,7 +25,7 @@ spec:
                   - key: workload
                     operator: In
                     values:
-                      - dev
+                      - pro
               weight: 100
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
@@ -33,7 +33,7 @@ spec:
                   - key: workload
                     operator: In
                     values:
-                      - dev
+                      - pro
                       - dr
       tolerations:
         - effect: NoSchedule
@@ -43,7 +43,7 @@ spec:
         - effect: NoSchedule
           key: dedicated
           operator: Equal
-          value: dev
+          value: pro
         - effect: NoSchedule
           key: dedicated
           operator: Equal
