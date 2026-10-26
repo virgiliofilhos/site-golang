@@ -17,22 +17,45 @@ spec:
       labels:
         app: golang-example-site
     spec:
-      nodeSelector:
-        workload: pro
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - dev
+              weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - dev
+                      - dr
       tolerations:
-        - key: dr
-          operator: Exists
-          effect: NoSchedule
-        - key: node.kubernetes.io/unreachable
-          operator: Exists
-          effect: NoExecute
-        - key: node.kubernetes.io/not-ready
-          operator: Exists
-          effect: NoExecute
-        - key: dedicated
+        - effect: NoSchedule
+          key: typenode
           operator: Equal
-          value: pro
-          effect: NoSchedule
+          value: worker
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: dev
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: dr
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
       containers:
         - name: site
           image: golang:1.24-alpine

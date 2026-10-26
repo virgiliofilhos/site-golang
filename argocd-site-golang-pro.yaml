@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: site-golang-pro
+  namespace: argocd
+spec:
+  destination:
+    namespace: golang-example-pro
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: overlays/pro
+    repoURL: https://github.com/virgiliofilhos/site-golang.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
